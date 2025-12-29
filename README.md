@@ -4,6 +4,10 @@ Extract images from blog URLs and download as ZIP.
 
 ## Setup
 
+### Prerequisites
+- Node.js >=18.0.0
+- npm >=9.0.0
+
 1. Clone the repo
 2. npm install
 3. npm run dev
@@ -43,4 +47,4 @@ Response: ZIP file
 
 ## Deployment
 
-Deploy to Vercel for serverless functions.
+Deploy to Vercel for serverless functions.# BlogPix
