@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Comic Neue", "Roboto Mono", monospace;
+  background-color: #f0f0f0;
+  color: #050505;
+  background-image: radial-gradient(#ccc 15%, transparent 16%), radial-gradient(#ccc 15%, transparent 16%);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+.comic-panel {
+  background-color: white;
+  border: 4px solid black;
+  box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
+}
+
+.speech-bubble {
+  position: relative;
+  background: #fff;
+  border: 4px solid #000;
+  border-radius: .4em;
+}
+
+.speech-bubble:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-top-color: #000;
+  border-bottom: 0;
+  margin-left: -20px;
+  margin-bottom: -20px;
+}
+
+.speech-bubble-right:after {
+  left: 80%;
+}
+
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff;
+  border-left: 2px solid #000;
+  background-image: radial-gradient(circle, #000 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f9d71c;
+  border: 3px solid #000;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff003c;
+}
+
+.halftone-bg {
+  background-image: radial-gradient(circle, rgba(0,0,0,0.1) 2px, transparent 2.5px);
+  background-size: 10px 10px;
+}
+
+.speed-lines {
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(0,0,0,0.05) 10px,
+    rgba(0,0,0,0.05) 20px
+  );
+}
