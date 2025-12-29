@@ -48,3 +48,4 @@ Response: ZIP file
 ## Deployment
 
 Deploy to Vercel for serverless functions.# BlogPix
+# BlogPix

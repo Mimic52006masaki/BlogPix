@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 
 interface Image {
@@ -10,12 +10,16 @@ interface Image {
   format: string
 }
 
+const BATCH_SIZE = 10
+
 export default function Home() {
   const [url, setUrl] = useState('')
-  const [images, setImages] = useState<Image[]>([])
+  const [allImages, setAllImages] = useState<Image[]>([])
+  const [displayedImages, setDisplayedImages] = useState<Image[]>([])
   const [format, setFormat] = useState('original')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [loadingMore, setLoadingMore] = useState(false)
 
   const fetchImages = async () => {
     if (!url) return
@@ -29,7 +33,9 @@ export default function Home() {
       })
       if (!response.ok) throw new Error('Failed to fetch images')
       const data = await response.json()
-      setImages(data.images.map((img: any) => ({ ...img, selected: false })))
+      const imagesWithSelected = data.images.map((img: any) => ({ ...img, selected: false }))
+      setAllImages(imagesWithSelected)
+      setDisplayedImages(imagesWithSelected.slice(0, BATCH_SIZE))
     } catch (err) {
       setError('画像の取得に失敗しました')
     }
@@ -37,19 +43,45 @@ export default function Home() {
   }
 
   const selectAll = () => {
-    setImages(images.map(img => ({ ...img, selected: true })))
+    const newAllImages = allImages.map(img => ({ ...img, selected: true }))
+    setAllImages(newAllImages)
+    setDisplayedImages(displayedImages.map(img => ({ ...img, selected: true })))
   }
 
   const deselectAll = () => {
-    setImages(images.map(img => ({ ...img, selected: false })))
+    const newAllImages = allImages.map(img => ({ ...img, selected: false }))
+    setAllImages(newAllImages)
+    setDisplayedImages(displayedImages.map(img => ({ ...img, selected: false })))
   }
 
   const toggleSelect = (id: string) => {
-    setImages(images.map(img => img.id === id ? { ...img, selected: !img.selected } : img))
+    const newAllImages = allImages.map(img => img.id === id ? { ...img, selected: !img.selected } : img)
+    setAllImages(newAllImages)
+    const newDisplayedImages = displayedImages.map(img => img.id === id ? { ...img, selected: !img.selected } : img)
+    setDisplayedImages(newDisplayedImages)
   }
 
+  const loadMore = useCallback(() => {
+    if (displayedImages.length >= allImages.length || loadingMore) return
+    setLoadingMore(true)
+    const nextBatch = allImages.slice(displayedImages.length, displayedImages.length + BATCH_SIZE)
+    setDisplayedImages(prev => [...prev, ...nextBatch])
+    setLoadingMore(false)
+  }, [allImages, displayedImages, loadingMore])
+
+  const handleScroll = useCallback(() => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+      loadMore()
+    }
+  }, [loadMore])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [handleScroll])
+
   const downloadZip = async () => {
-    const selected = images.filter(img => img.selected)
+    const selected = allImages.filter(img => img.selected)
     if (selected.length === 0) return
     try {
       const response = await fetch('/api/download-zip', {
@@ -146,12 +178,12 @@ export default function Home() {
         </div>
       </div>
       <main className="flex-grow flex flex-col w-full px-4 md:px-10 py-8 mx-auto max-w-[1400px] gap-8 relative z-0">
-        {images.length > 0 && (
+        {displayedImages.length > 0 && (
           <section className="comic-panel p-6 w-full flex flex-col md:flex-row items-center justify-between gap-6 bg-white transform rotate-[0.5deg]">
             <div className="flex flex-col gap-1 w-full md:w-auto">
               <h3 className="text-4xl font-display text-black flex items-center gap-3">
                 <span className="text-punk-accent" style={{ WebkitTextStroke: '1px black' }}>THE STASH</span>
-                <span className="bg-black text-white text-lg px-3 py-1 font-mono rounded-full border-2 border-black -rotate-3 transform shadow-[2px_2px_0px_#ccc]">({images.length} Items)</span>
+                <span className="bg-black text-white text-lg px-3 py-1 font-mono rounded-full border-2 border-black -rotate-3 transform shadow-[2px_2px_0px_#ccc]">({displayedImages.length} Items)</span>
               </h3>
               <div className="flex gap-4 mt-1 pl-1">
                 <button
@@ -197,9 +229,9 @@ export default function Home() {
             </div>
           </section>
         )}
-        {images.length > 0 && (
+        {displayedImages.length > 0 && (
           <section className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 pb-20">
-            {images.map((image) => (
+            {displayedImages.map((image) => (
               <div
                 key={image.id}
                 className="group relative aspect-square bg-white p-2 border-4 border-black shadow-comic transform hover:-rotate-1 transition-transform duration-300 cursor-pointer"
@@ -227,6 +259,11 @@ export default function Home() {
               </div>
             ))}
           </section>
+        )}
+        {loadingMore && (
+          <div className="text-center py-8">
+            <span className="text-xl font-display text-black">LOADING MORE...</span>
+          </div>
         )}
       </main>
     </div>
