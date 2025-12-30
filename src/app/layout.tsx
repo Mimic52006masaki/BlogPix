@@ -13,7 +13,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col overflow-x-hidden selection:bg-comic-yellow selection:text-black">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" crossOrigin="" href="https://fonts.gstatic.com"/>
+        <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&amp;family=Roboto+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+      </head>
+      <body className="bg-white text-black min-h-screen flex flex-col overflow-x-hidden selection:bg-punk-accent selection:text-white">
+        <div className="grunge-overlay"></div>
         {children}
       </body>
     </html>

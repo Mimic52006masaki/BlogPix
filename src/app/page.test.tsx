@@ -15,11 +15,11 @@ describe('Home Component', () => {
 
   it('renders initial state', () => {
     render(<Home />)
-    expect(screen.getByPlaceholderText('HTTPS://URL.HERE...')).toBeInTheDocument()
+    expect(screen.getByPlaceholderText(/Enter URLs/)).toBeInTheDocument()
     expect(screen.getByText('BOOM!')).toBeInTheDocument()
   })
 
-  it('fetches images when URL is entered and button clicked', async () => {
+  it('fetches images when URLs are entered and button clicked', async () => {
     const mockImages = [
       { id: 'img-1', url: 'https://example.com/image1.jpg', width: 800, height: 600, format: 'jpg' },
       { id: 'img-2', url: 'https://example.com/image2.png', width: 800, height: 600, format: 'png' }
@@ -30,22 +30,24 @@ describe('Home Component', () => {
     } as Response)
 
     render(<Home />)
-    const input = screen.getByPlaceholderText('HTTPS://URL.HERE...')
+    const textarea = screen.getByPlaceholderText(/Enter URLs/)
     const button = screen.getByText('BOOM!')
 
-    await userEvent.type(input, 'https://example.com')
+    await userEvent.type(textarea, 'https://example.com\nhttps://example2.com')
     await userEvent.click(button)
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith('/api/fetch-images', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: 'https://example.com' })
+        body: JSON.stringify({ urls: ['https://example.com', 'https://example2.com'] })
       })
     })
 
     expect(screen.getByText('THE STASH')).toBeInTheDocument()
   })
+
+
 
   it('selects and deselects images', async () => {
     const mockImages = [
@@ -57,7 +59,7 @@ describe('Home Component', () => {
     } as Response)
 
     render(<Home />)
-    const input = screen.getByPlaceholderText('HTTPS://URL.HERE...')
+    const input = screen.getByPlaceholderText(/Enter URLs/)
     const button = screen.getByText('BOOM!')
 
     await userEvent.type(input, 'https://example.com')
@@ -65,7 +67,7 @@ describe('Home Component', () => {
 
     await waitFor(() => screen.getByText('THE STASH'))
 
-    const imageCard = screen.getByRole('img', { name: '' }).closest('div')
+    const imageCard = screen.getByRole('presentation').closest('div')
     expect(imageCard).toBeInTheDocument()
 
     // Click to select
@@ -84,7 +86,7 @@ describe('Home Component', () => {
     } as Response)
 
     render(<Home />)
-    await userEvent.type(screen.getByPlaceholderText('HTTPS://URL.HERE...'), 'https://example.com')
+    await userEvent.type(screen.getByPlaceholderText(/Enter URLs/), 'https://example.com')
     await userEvent.click(screen.getByText('BOOM!'))
 
     await waitFor(() => screen.getByText('Select All'))
@@ -103,7 +105,7 @@ describe('Home Component', () => {
     } as Response)
 
     render(<Home />)
-    await userEvent.type(screen.getByPlaceholderText('HTTPS://URL.HERE...'), 'https://example.com')
+    await userEvent.type(screen.getByPlaceholderText(/Enter URLs/), 'https://example.com')
     await userEvent.click(screen.getByText('BOOM!'))
 
     await waitFor(() => screen.getByText('Deselect'))
@@ -136,7 +138,7 @@ describe('Home Component', () => {
     })
 
     render(<Home />)
-    await userEvent.type(screen.getByPlaceholderText('HTTPS://URL.HERE...'), 'https://example.com')
+    await userEvent.type(screen.getByPlaceholderText(/Enter URLs/), 'https://example.com')
     await userEvent.click(screen.getByText('BOOM!'))
 
     await waitFor(() => screen.getByText('Select All'))
@@ -158,7 +160,7 @@ describe('Home Component', () => {
     } as Response)
 
     render(<Home />)
-    await userEvent.type(screen.getByPlaceholderText('HTTPS://URL.HERE...'), 'https://invalid.com')
+    await userEvent.type(screen.getByPlaceholderText(/Enter URLs/), 'https://invalid.com')
     await userEvent.click(screen.getByText('BOOM!'))
 
     await waitFor(() => {

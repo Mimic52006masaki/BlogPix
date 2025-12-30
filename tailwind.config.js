@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,27 +12,19 @@ module.exports = {
         "punk-black": "#050505",
         "punk-white": "#f0f0f0",
         "punk-accent": "#ff003c",
-        "comic-yellow": "#f9d71c",
-        "comic-cyan": "#00e0ff",
-        "comic-dots": "#e5e5e5",
+        "checker-dark": "#000000",
+        "checker-light": "#ffffff",
       },
       fontFamily: {
-        "display": ["Bangers", "cursive"],
-        "marker": ["Permanent Marker", "cursive"],
-        "comic": ["Comic Neue", "cursive"],
+        "display": ["Permanent Marker", "cursive"],
         "mono": ["Roboto Mono", "monospace"]
       },
       backgroundImage: {
-        'halftone-pattern': "radial-gradient(circle, #333 1px, transparent 1px)",
-        'halftone-light': "radial-gradient(circle, #000 1px, transparent 1px)"
-      },
-      backgroundSize: {
-        'halftone': '20px 20px'
+        'checker-pattern': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgZmlsbC1vcGFjaXR5PSIwLjEiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iI2ZmYiIvPjxyZWN0IHg9IjIwIiB5PSIyMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjZmZmIi8+PC9zdmc+')",
+        'checker-pattern-dark': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgZmlsbC1vcGFjaXR5PSIwLjIyIj48cmVjdCB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIyMCIgeT0iMjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==')"
       },
       boxShadow: {
-        'comic': '4px 4px 0px 0px #000',
-        'comic-lg': '8px 8px 0px 0px #000',
-        'comic-xl': '12px 12px 0px 0px #000',
+        'punk': '4px_4px_0px_0px_rgba(255,0,60,1)',
       }
     },
   },

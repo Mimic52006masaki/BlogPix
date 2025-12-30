@@ -3,77 +3,69 @@
 @tailwind utilities;
 
 body {
-  font-family: "Comic Neue", "Roboto Mono", monospace;
-  background-color: #f0f0f0;
-  color: #050505;
-  background-image: radial-gradient(#ccc 15%, transparent 16%), radial-gradient(#ccc 15%, transparent 16%);
-  background-size: 20px 20px;
-  background-position: 0 0, 10px 10px;
-}
+    font-family: "Roboto Mono", monospace;
+    background-color: #f0f0f0;
+    color: #050505
+    }
 
-.comic-panel {
-  background-color: white;
-  border: 4px solid black;
-  box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
-}
-
-.speech-bubble {
-  position: relative;
-  background: #fff;
-  border: 4px solid #000;
-  border-radius: .4em;
-}
-
-.speech-bubble:after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 20%;
-  width: 0;
-  height: 0;
-  border: 20px solid transparent;
-  border-top-color: #000;
-  border-bottom: 0;
-  margin-left: -20px;
-  margin-bottom: -20px;
-}
-
-.speech-bubble-right:after {
-  left: 80%;
-}
-
+.checker-bg {
+    background-color: #fff;
+    background-image: linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px
+    }
+.dripping-border {
+    position: relative
+    }
+.dripping-border::after {
+    content: "";
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23050505' fill-opacity='1' d='M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,90.7C672,85,768,107,864,133.3C960,160,1056,192,1152,186.7C1248,181,1344,139,1392,117.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 10
+    }
 ::-webkit-scrollbar {
-  width: 16px;
-}
-
+    width: 12px
+    }
 ::-webkit-scrollbar-track {
-  background: #fff;
-  border-left: 2px solid #000;
-  background-image: radial-gradient(circle, #000 1px, transparent 1px);
-  background-size: 8px 8px;
-}
-
+    background: #000;
+    border-left: 1px solid #333
+    }
 ::-webkit-scrollbar-thumb {
-  background: #f9d71c;
-  border: 3px solid #000;
-  border-radius: 999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #ff003c;
-}
-
-.halftone-bg {
-  background-image: radial-gradient(circle, rgba(0,0,0,0.1) 2px, transparent 2.5px);
-  background-size: 10px 10px;
-}
-
-.speed-lines {
-  background: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    rgba(0,0,0,0.05) 10px,
-    rgba(0,0,0,0.05) 20px
-  );
-}
+    background: #ff003c;
+    border: 2px solid #000
+    }
+.glitch-hover:hover {
+    animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    color: #ff003c
+    }
+@keyframes glitch {
+    0% {
+        transform: translate(0)
+        } 20% {
+        transform: translate(-2px, 2px)
+        } 40% {
+        transform: translate(-2px, -2px)
+        } 60% {
+        transform: translate(2px, 2px)
+        } 80% {
+        transform: translate(2px, -2px)
+        } 100% {
+        transform: translate(0)
+        }
+    }.grunge-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+    pointer-events: none;
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBsxOZhh1MX5u1ecf6WKEhFLPVxN8tCkIHUerdlETlYv7HbMYyvsCx4Wxe2EshGFXrp059aFtjrDgxV0VV1JnAw9tSfxNeSBPrxG0IZAqcJTTcxx86Sdt244up3l8kbBEr1f1PDUPj0c5MluH6ps0M3O9xmw0sgTkZLrnZQTJl2CD3ttpOqiolqTpCJZ2FBKMpkVrZxEqmh0Q80-XgSgGjSvVF4iZv38FiRecpYZgw9a0i5hNNH21RRUCqsaRj83n2-V2KtbaGPZRmO);
+    z-index: 9999
+    }
