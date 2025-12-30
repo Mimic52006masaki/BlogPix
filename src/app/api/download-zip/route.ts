@@ -1,38 +1,32 @@
-import { NextRequest } from 'next/server'
 import JSZip from 'jszip'
+import { NextRequest } from 'next/server'
 
-export const runtime = 'nodejs' // ← ★ これがないと必ず落ちる
+export const runtime = 'nodejs'
 
 type DownloadImage = {
   id: string
   url: string
 }
 
-type RequestBody = {
-  images: DownloadImage[]
-  format: string
-  id: string
-}
-
 export async function POST(req: NextRequest) {
-  const body = (await req.json()) as RequestBody
-  const { images, format, id } = body
+  const body = await req.json()
+
+  const images = body.images as DownloadImage[]
+  const format = body.format as string
+  const id = body.id as string
 
   if (!id) {
     return new Response('Missing id', { status: 400 })
   }
 
-  console.log('Downloading images:', images.map((img) => img.url))
+  console.log('Downloading images:', images.map((img: DownloadImage) => img.url))
 
   const zip = new JSZip()
 
   for (const img of images) {
     const res = await fetch(img.url)
     const buffer = await res.arrayBuffer()
-    zip.file(
-      `${img.id}.${format === 'original' ? 'jpg' : format}`,
-      buffer
-    )
+    zip.file(`${img.id}.${format === 'original' ? 'jpg' : format}`, buffer)
   }
 
   const zipBuffer = await zip.generateAsync({ type: 'arraybuffer' })
