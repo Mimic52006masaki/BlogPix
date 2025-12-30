@@ -9,12 +9,16 @@ type DownloadImage = {
   url: string
 }
 
-export async function POST(req: NextRequest) {
-  const body = await req.json()
+type RequestBody = {
+  images: DownloadImage[]
+  format: string
+  id: string
+}
 
-  const images = body.images as DownloadImage[]
-  const format = body.format as string
-  const id = body.id as string
+export async function POST(req: NextRequest) {
+  const body: RequestBody = await req.json()
+
+  const { images, format, id } = body
 
   if (!id) {
     return new Response('Missing id', { status: 400 })
