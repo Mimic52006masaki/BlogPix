@@ -1,6 +1,5 @@
 import { NextRequest } from 'next/server'
-
-const progressMap = new Map<string, { progress: number; total: number; complete: boolean }>()
+import { progressMap } from '@/lib/progressStore'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -47,5 +46,3 @@ export async function GET(request: NextRequest) {
     },
   })
 }
-
-export { progressMap }

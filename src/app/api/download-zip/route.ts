@@ -1,6 +1,6 @@
 import JSZip from 'jszip'
 import { NextRequest } from 'next/server'
-import { progressMap } from '../download-progress/route'
+import { progressMap } from '@/lib/progressStore'
 
 export const runtime = 'nodejs'
 
