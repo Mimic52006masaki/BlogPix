@@ -3,8 +3,17 @@ import axios from 'axios'
 import sharp from 'sharp'
 import { progressMap } from '../download-progress/route'
 
+type DownloadImage = {
+  id: string
+  url: string
+}
+
 export async function POST(request: Request) {
-  const { images, format, id } = await request.json()
+  const { images, format, id } = await request.json() as {
+    images: DownloadImage[]
+    format: string
+    id: string
+  }
   if (!id) {
     return new Response('Missing id', { status: 400 })
   }
